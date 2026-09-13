@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OSIS Ebenhaezer — SMAK3 Bina Bakti</title>
+  <meta name="description" content="Website resmi OSIS SMAK3 Bina Bakti Ebenhaezer, Bandung."/>
+  <meta property="og:title" content="OSIS Ebenhaezer"/>
+  <meta property="og:description" content="Website resmi OSIS SMAK3 Bina Bakti Ebenhaezer, Bandung."/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ============================================================
+       VARIABLES
+    ============================================================ */
+    :root {
+      --black:  #0a0a0a;
+      --white:  #f5f5f0;
+      --gray:   #888880;
+      --border: rgba(245,245,240,0.12);
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+
+      /* Theme tokens — dark default */
+      --bg:        #0a0a0a;
+      --fg:        #f5f5f0;
+      --muted:     #888880;
+      --surface:   rgba(10,10,10,0.85);
+      --bdr:       rgba(245,245,240,0.12);
+    }
+
+    /* ── LIGHT THEME ── */
+    [data-theme="light"] {
+      --black:  #f5f5f0;
+      --white:  #0a0a0a;
+      --gray:   #666660;
+      --border: rgba(10,10,10,0.14);
+      --bg:     #f0ede8;
+      --fg:     #0a0a0a;
+      --muted:  #666660;
+      --surface: rgba(240,237,232,0.88);
+      --bdr:    rgba(10,10,10,0.14);
+    }
+
+    [data-theme="light"] body {
+      background: #f0ede8;
+      color: #0a0a0a;
+    }
+
+    [data-theme="light"] body::before {
+      opacity: .18;
+    }
+
+    [data-theme="light"] #loader {
+      background: #f0ede8;
+    }
+
+
+    [data-theme="light"] .mobile-menu {
+      background: #f0ede8;
+    }
+
+
+    [data-theme="light"] .member-card {
+      background: #ddd;
+    }
+
+    [data-theme="light"] .event-card {
+      background: #e8e5e0;
+    }
+
+    [data-theme="light"] .ptab.active {
+      background: #0a0a0a;
+      color: #f5f5f0;
+    }
+
+    [data-theme="light"] .btn-primary {
+      background: #0a0a0a;
+      color: #f5f5f0;
+    }
+
+    [data-theme="light"] .btn-primary:hover {
+      background: #333;
+    }
+
+    [data-theme="light"] #event-modal {
+      background: rgba(240,237,232,0.98);
+    }
+
+    [data-theme="light"] #lightbox {
+      background: rgba(240,237,232,0.98);
+    }
+
+    [data-theme="light"] #lightbox-close,
+    [data-theme="light"] .modal-close {
+      color: #0a0a0a;
+    }
+
+    [data-theme="light"] .mission-list li {
+      border-color: rgba(10,10,10,0.14);
+    }
+
+    [data-theme="light"] .gallery-placeholder {
+      background: #ddd8d0;
+    }
+
+    [data-theme="light"] .modal-photo-placeholder {
+      background: #ddd8d0;
+    }
+
+    /* ============================================================
+       RESET
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a   { color: inherit; text-decoration: none; }
+
+    /* noise */
+    body::before {
+      content:''; position:fixed; inset:0; pointer-events:none; z-index:999;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size:200px; opacity:.35;
+    }
+
+    /* loader removed */
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal {
+      opacity:0; transform:translateY(32px);
+      transition: opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible { opacity:1; transform:none; }
+    .d1{transition-delay:.08s} .d2{transition-delay:.16s}
+    .d3{transition-delay:.24s} .d4{transition-delay:.32s}
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    nav {
+      position:fixed; top:0; width:100%; z-index:500;
+      padding:22px 48px;
+      display:flex; align-items:center; justify-content:space-between;
+      transition: background .4s, border-color .4s, padding .4s,
+                  transform .4s cubic-bezier(.16,1,.3,1),
+                  box-shadow .4s;
+      border-bottom:1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border-color: rgba(255,255,255,0.18);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.32),
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        inset 0 -1px 0 rgba(0,0,0,0.06);
+      padding:14px 48px;
+    }
+    [data-theme="light"] nav.scrolled {
+      background: rgba(255,255,255,0.45);
+      border-color: rgba(255,255,255,0.7);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.10),
+        inset 0 1px 0 rgba(255,255,255,0.9),
+        inset 0 -1px 0 rgba(0,0,0,0.04);
+    }
+    nav.nav-hidden {
+      transform: translateY(-100%);
+    }
+    .nav-logo { display:flex; align-items:center; gap:12px; }
+    /* ── GANTI src logo navbar ── */
+    .nav-logo img { width:32px; height:32px; object-fit:contain; filter:brightness(0) invert(1); }
+    .nav-logo span { font-family:var(--font-display); font-size:.92rem; letter-spacing:.1em; text-transform:uppercase; }
+    .nav-links { display:flex; gap:36px; list-style:none; }
+    .nav-links a {
+      font-size:.73rem; letter-spacing:.15em; text-transform:uppercase;
+      color:var(--gray); transition:color .3s; position:relative;
+    }
+    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--white); transition:width .3s; }
+    .nav-links a:hover { color:var(--white); }
+    .nav-links a:hover::after { width:100%; }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:4px; cursor:pointer; }
+    .hamburger span { display:block; width:24px; height:1px; background:var(--white); transition:.3s; }
+    .hamburger.open span:nth-child(1){ transform:rotate(45deg) translate(4px,4px); }
+    .hamburger.open span:nth-child(2){ opacity:0; }
+    .hamburger.open span:nth-child(3){ transform:rotate(-45deg) translate(4px,-4px); }
+    .mobile-menu { display:none; position:fixed; inset:0; background:var(--black); z-index:490; flex-direction:column; align-items:center; justify-content:center; gap:36px; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { font-family:var(--font-display); font-size:2.2rem; color:var(--gray); transition:color .3s; }
+    .mobile-menu a:hover { color:var(--white); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #home {
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:flex-start;
+    padding: 68px 0 0 0 !important;
+    position:relative; overflow:hidden;
+    }
+
+    /* VIDEO BLOCK — mengisi bagian atas hero */
+    .hero-video-wrap {
+      position:relative; width:100%;
+      padding-top:56.25%; /* 16:9 ratio */
+      background:#000; flex-shrink:0;
+    }
+    .hero-video-wrap iframe {
+      position:absolute; inset:0;
+      width:100%; height:100%; border:none;
+    }
+    /* fade bawah video ke hitam */
+    .hero-video-wrap::after {
+      content:''; position:absolute; bottom:0; left:0; right:0;
+      height:80px;
+      background:linear-gradient(to bottom, transparent, var(--black));
+      pointer-events:none;
+    }
+
+    /* TEKS HERO — di bawah video */
+    .hero-content {
+      position:relative; z-index:2;
+      padding:40px 48px 72px;
+    }
+    .hero-eyebrow { font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gray); margin-bottom:16px; }
+    .hero-title { font-family:var(--font-display); font-size:clamp(52px,9vw,128px); font-weight:900; line-height:.93; letter-spacing:-.02em; }
+    .hero-title em { font-style:italic; color:var(--gray); }
+    .hero-sub { margin-top:24px; max-width:400px; font-size:.98rem; color:var(--gray); line-height:1.7; }
+    .hero-cta { margin-top:38px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+    .btn-primary { padding:13px 30px; background:var(--white); color:var(--black); font-size:.76rem; letter-spacing:.15em; text-transform:uppercase; border:none; cursor:pointer; transition:background .3s, transform .2s; }
+    .btn-primary:hover { background:#d8d8d4; transform:translateY(-2px); }
+    .btn-ghost { font-size:.76rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gray); border-bottom:1px solid var(--border); padding-bottom:3px; transition:color .3s, border-color .3s; }
+    .btn-ghost:hover { color:var(--white); border-color:var(--white); }
+
+    /* stats & scroll indicator dihapus dari hero, ga relevan lagi */
+    .hero-stats { display:none; }
+    .scroll-ind { display:none; }
+
+    /* ============================================================
+       SECTION BASE
+    ============================================================ */
+    section { padding:110px 48px; }
+    .section-tag { font-size:.66rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gray); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+    .section-tag::before { content:''; display:inline-block; width:26px; height:1px; background:var(--gray); }
+    .section-title { font-family:var(--font-display); font-size:clamp(34px,5vw,70px); font-weight:900; line-height:1.05; letter-spacing:-.02em; }
+    .section-title em { font-style:italic; color:var(--gray); }
+    .divider { border:none; border-top:1px solid var(--border); margin:0 48px; }
+
+    /* PERIOD TABS */
+    .period-tabs { display:flex; border:1px solid var(--border); width:fit-content; }
+    .ptab { padding:9px 22px; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; background:none; border:none; color:var(--gray); cursor:pointer; transition:background .25s, color .25s; }
+    .ptab.active { background:var(--white); color:var(--black); }
+    .ptab:not(.active):hover { color:var(--white); }
+    .period-panel { display:none; }
+    .period-panel.active { display:block; }
+    .dept-label { font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gray); margin:36px 0 14px; display:flex; align-items:center; gap:10px; }
+    .dept-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    .about-wrap { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start; }
+    .about-left .lead { font-size:clamp(15px,1.5vw,20px); line-height:1.7; color:var(--gray); margin-top:26px; max-width:440px; }
+    .about-right { padding-top:72px; }
+    .vm-block { margin-bottom:38px; }
+    .vm-label { font-size:.66rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gray); margin-bottom:12px; }
+    .vm-text { font-family:var(--font-display); font-size:clamp(13px,1.15vw,16px); line-height:1.65; font-weight:400; }
+    .mission-list { list-style:none; margin-top:14px; display:flex; flex-direction:column; gap:9px; }
+    .mission-list li { display:flex; align-items:flex-start; gap:12px; padding:13px; border:1px solid var(--border); font-size:.86rem; color:var(--gray); line-height:1.5; transition:border-color .3s, color .3s; }
+    .mission-list li:hover { border-color:rgba(245,245,240,.3); color:var(--white); }
+    .mission-list li .num { font-family:var(--font-display); font-size:1rem; color:rgba(245,245,240,.18); flex-shrink:0; }
+
+    /* ============================================================
+       MEMBERS — GRID CARDS
+    ============================================================ */
+    #members { padding-bottom:60px; }
+    .members-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:52px; flex-wrap:wrap; gap:20px; }
+
+    .members-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(190px,1fr));
+      gap:2px;
+    }
+
+    /* mobile: 2 kolom fix */
+    @media(max-width:580px){
+      .members-grid { grid-template-columns:1fr 1fr; }
+    }
+
+    /* member card */
+    .member-card {
+      position:relative; overflow:hidden;
+      aspect-ratio:3/4; background:#111; cursor:default;
+    }
+    /* ── FOTO: ganti src di tag <img class="member-photo"> ── */
+    .member-photo {
+      width:100%; height:100%; object-fit:cover;
+      filter:grayscale(1) brightness(.8);
+      transition:filter .5s, transform .5s;
+    }
+    .member-card:hover .member-photo { filter:grayscale(.2) brightness(.95); transform:scale(1.04); }
+    .member-info {
+      position:absolute; bottom:0; left:0; right:0;
+      padding:22px 18px 18px;
+      background:linear-gradient(to top, rgba(10,10,10,.96) 55%, transparent);
+      transform:translateY(6px); transition:transform .4s cubic-bezier(.16,1,.3,1);
+    }
+    .member-card:hover .member-info { transform:translateY(0); }
+    .member-name { font-family:var(--font-display); font-size:1rem; font-weight:700; line-height:1.2; }
+    .member-role { font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gray); margin-top:4px; }
+
+    /* dept block label — pisah tiap kelompok */
+    .dept-block { margin-top:52px; }
+    .dept-block-label {
+      font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gray);
+      margin-bottom:14px; display:flex; align-items:center; gap:12px;
+      padding:10px 16px; border:1px solid var(--border); width:fit-content;
+    }
+    .dept-block-label::before { content:''; display:inline-block; width:20px; height:1px; background:var(--gray); }
+
+    /* divisi sub-label dalam dept block */
+    .divisi-label {
+      font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gray);
+      margin:24px 0 10px; display:flex; align-items:center; gap:10px;
+    }
+    .divisi-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* tombol form di modal */
+    .modal-form-btn {
+      display:inline-flex; align-items:center; gap:12px;
+      margin-bottom:36px; padding:14px 28px;
+      border:1px solid var(--white); color:var(--white);
+      font-size:.75rem; letter-spacing:.18em; text-transform:uppercase;
+      transition:background .3s, color .3s;
+      cursor:pointer; text-decoration:none;
+    }
+    .modal-form-btn:hover { background:var(--white); color:var(--black); }
+    .modal-form-btn .form-icon { font-size:1.1rem; }
+
+    /* ============================================================
+       EVENTS
+    ============================================================ */
+    .event-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+      gap:2px;
+      margin-top:40px;
+    }
+    .event-card {
+      position:relative; overflow:hidden;
+      background:#111;
+      border:1px solid var(--border);
+      padding:32px 28px 28px;
+      cursor:pointer;
+      transition:background .3s, border-color .3s, transform .3s;
+      display:flex; flex-direction:column; gap:14px;
+    }
+    .event-card:hover {
+      background:#1a1a1a;
+      border-color:rgba(245,245,240,0.28);
+      transform:translateY(-3px);
+    }
+    .event-tag {
+      font-size:.62rem; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--gray); display:flex; align-items:center; gap:8px;
+    }
+    .event-tag::before { content:''; display:inline-block; width:16px; height:1px; background:var(--gray); }
+    .event-name {
+      font-family:var(--font-display);
+      font-size:clamp(18px,2.5vw,26px);
+      font-weight:700; line-height:1.15;
+    }
+    .event-meta {
+      font-size:.7rem; color:var(--gray);
+      display:flex; gap:16px; flex-wrap:wrap;
+    }
+    .event-desc {
+      font-size:.82rem; color:var(--gray); line-height:1.65;
+      display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .event-cta {
+      margin-top:auto; padding-top:16px;
+      border-top:1px solid var(--border);
+      font-size:.66rem; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--gray); display:flex; align-items:center; gap:8px;
+      transition:color .25s, gap .25s;
+    }
+    .event-card:hover .event-cta { color:var(--white); gap:12px; }
+    .event-cta::after { content:'→'; }
+
+    /* EVENT MODAL */
+    #event-modal {
+      position:fixed; inset:0; z-index:900;
+      background:rgba(10,10,10,.72);
+      backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+      opacity:0; visibility:hidden;
+      transition:opacity .4s, visibility .4s;
+    }
+    #event-modal.open { opacity:1; visibility:visible; }
+    .modal-inner {
+      background:var(--black);
+      border:1px solid var(--border);
+      max-width:720px; width:100%;
+      max-height:88vh; overflow-y:auto;
+      padding:48px;
+      position:relative;
+    }
+    .modal-close {
+      position:absolute; top:20px; right:24px;
+      background:none; border:none; color:var(--white);
+      font-size:1.4rem; cursor:pointer; line-height:1;
+      transition:opacity .2s;
+    }
+    .modal-close:hover { opacity:.6; }
+    .modal-dept { font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gray); margin-bottom:12px; }
+    .modal-title { font-family:var(--font-display); font-size:clamp(24px,4vw,44px); font-weight:900; line-height:1.1; margin-bottom:24px; }
+    .modal-desc { font-size:.88rem; color:var(--gray); line-height:1.75; margin-bottom:32px; }
+    .modal-photos { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .modal-photo { aspect-ratio:4/3; overflow:hidden; cursor:zoom-in; }
+    .modal-photo img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+    .modal-photo:hover img { transform:scale(1.06); }
+    .modal-photo-placeholder {
+      aspect-ratio:4/3; background:#1a1a1a;
+      border:1px dashed var(--border);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      gap:10px; text-align:center;
+    }
+    .modal-photo-placeholder .ph-icon { font-size:1.6rem; opacity:.4; }
+    .modal-photo-placeholder span { font-size:.65rem; color:var(--gray); line-height:1.6; }
+
+    /* LIGHTBOX */
+    #lightbox {
+      position:fixed; inset:0; z-index:1000;
+      background:rgba(10,10,10,.96);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+      opacity:0; visibility:hidden;
+      transition:opacity .35s, visibility .35s;
+    }
+    #lightbox.open { opacity:1; visibility:visible; }
+    #lightbox img { max-width:100%; max-height:90vh; object-fit:contain; }
+    #lightbox-close {
+      position:absolute; top:20px; right:24px;
+      background:none; border:none; color:var(--white);
+      font-size:1.6rem; cursor:pointer; line-height:1;
+    }
+
+    /* ============================================================
+       GALLERY
+    ============================================================ */
+    .gallery-grid {
+      columns: 3;
+      column-gap: 6px;
+      margin-top: 40px;
+    }
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 6px;
+      overflow: hidden;
+      cursor: zoom-in;
+      position: relative;
+    }
+    .gallery-item img {
+      width: 100%; display: block;
+      transition: transform .5s cubic-bezier(.16,1,.3,1), filter .4s;
+      filter: grayscale(.3);
+    }
+    .gallery-item:hover img { transform: scale(1.04); filter: grayscale(0); }
+    .gallery-placeholder {
+      aspect-ratio: 4/3;
+      background: #111;
+      border: 1px dashed var(--border);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px; text-align: center;
+      padding: 24px;
+    }
+    .gallery-placeholder .ph-icon { font-size: 2rem; opacity: .3; }
+    .gallery-placeholder p { font-size: .72rem; color: var(--gray); line-height: 1.7; }
+
+    /* ============================================================
+       CONTACT & FOOTER
+    ============================================================ */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-title {
+      font-family: var(--font-display);
+      font-size: clamp(38px,6vw,80px);
+      font-weight: 900; line-height: 1.0;
+      letter-spacing: -.02em;
+    }
+    .contact-title em { font-style: italic; color: var(--gray); }
+    .contact-address {
+      font-size: .84rem; color: var(--gray);
+      line-height: 1.8; margin-bottom: 36px;
+    }
+    .social-links { display: flex; flex-direction: column; gap: 4px; }
+    .social-link {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .76rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gray); text-decoration: none;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color .25s, padding-left .25s, border-color .25s;
+    }
+    .social-link:hover { color: var(--white); border-color: rgba(245,245,240,.35); }
+    .social-link .arrow { margin-left: auto; font-size: .9rem; transition: transform .25s; }
+    .social-link:hover .arrow { transform: translate(3px,-3px); }
+
+    footer {
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-brand { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gray); }
+    .footer-copy  { font-size: .7rem; color: var(--gray); }
+
+    /* ============================================================
+       LIQUID DOCK — always visible, items expand on tap
+    ============================================================ */
+
+    /* ── main tray (always visible) ── */
+    #dock-tray {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 800;
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(32px) saturate(200%);
+      -webkit-backdrop-filter: blur(32px) saturate(200%);
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.30),
+        inset 0 -1px 0 rgba(0,0,0,0.08);
+
+      transition:
+        transform .45s cubic-bezier(.16,1,.3,1),
+        opacity   .45s cubic-bezier(.16,1,.3,1);
+    }
+    [data-theme="light"] #dock-tray {
+      background: rgba(255,255,255,0.52);
+      border-color: rgba(255,255,255,0.78);
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.95),
+        inset 0 -1px 0 rgba(0,0,0,0.04);
+    }
+
+    /* scroll hide */
+    #dock-tray.dock-hidden {
+      transform: translateX(-50%) translateY(100px);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* divider */
+    .dock-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.18);
+      flex-shrink: 0;
+      transition: background .3s;
+    }
+    [data-theme="light"] .dock-divider { background: rgba(10,10,10,0.14); }
+
+    /* ── dock item wrapper (icon + expandable panel) ── */
+    .dock-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ── icon pill (always visible inside tray) ── */
+    .dock-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.12);
+      color: rgba(245,245,240,0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background .25s, border-color .25s, transform .2s, box-shadow .25s;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.30),
+        0 2px 8px rgba(0,0,0,0.20);
+    }
+    .dock-icon-btn:hover {
+      background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.42);
+      transform: scale(1.08);
+    }
+    .dock-icon-btn:active { transform: scale(.92); }
+    .dock-icon-btn.active {
+      background: rgba(255,255,255,0.26);
+      border-color: rgba(255,255,255,0.55);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.5),
+        0 0 14px rgba(255,255,255,0.15),
+        0 2px 8px rgba(0,0,0,0.22);
+    }
+    [data-theme="light"] .dock-icon-btn {
+      border-color: rgba(10,10,10,0.18);
+      background: rgba(10,10,10,0.08);
+      color: rgba(10,10,10,0.78);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 2px 8px rgba(0,0,0,0.08);
+    }
+    [data-theme="light"] .dock-icon-btn:hover {
+      background: rgba(10,10,10,0.15);
+      border-color: rgba(10,10,10,0.32);
+    }
+    [data-theme="light"] .dock-icon-btn.active {
+      background: rgba(10,10,10,0.20);
+      border-color: rgba(10,10,10,0.45);
+    }
+
+    /* ── expandable panel that slides out from icon ── */
+    .dock-panel {
+      overflow: hidden;
+      max-width: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        max-width .4s cubic-bezier(.16,1,.3,1),
+        opacity   .35s cubic-bezier(.16,1,.3,1),
+        margin    .4s cubic-bezier(.16,1,.3,1);
+      white-space: nowrap;
+      margin-left: 0;
+    }
+    .dock-panel.open {
+      max-width: 220px;
+      opacity: 1;
+      pointer-events: auto;
+      margin-left: 8px;
+    }
+
+    /* panel inner content styling */
+    .dock-panel-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px 5px 4px;
+      font-family: var(--font-body);
+      font-size: .68rem;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: rgba(245,245,240,0.80);
+    }
+    [data-theme="light"] .dock-panel-inner { color: rgba(10,10,10,0.68); }
+
+    /* music label */
+    #dock-music-label { font-size: .65rem; }
+
+    /* music progress inside panel */
+    #dock-progress {
+      width: 56px;
+      height: 2px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+    }
+    [data-theme="light"] #dock-progress { background: rgba(10,10,10,0.15); }
+    #dock-progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: rgba(245,245,240,0.80);
+      width: 0%;
+      transition: width .5s linear;
+      pointer-events: none;
+    }
+    [data-theme="light"] #dock-progress-fill { background: rgba(10,10,10,0.60); }
+
+    /* binbak radio glow */
+    .binbak-glow { animation: binbakPulse 2s ease-in-out 3; }
+    @keyframes binbakPulse {
+      0%,100% { box-shadow: none; }
+      50% {
+        box-shadow:
+          0 0 0 3px rgba(245,245,240,0.6),
+          0 0 32px 8px rgba(245,245,240,0.22);
+      }
+    }
+    [data-theme="light"] .binbak-glow { animation: binbakPulseLight 2s ease-in-out 3; }
+    @keyframes binbakPulseLight {
+      0%,100% { box-shadow: none; }
+      50% {
+        box-shadow:
+          0 0 0 3px rgba(10,10,10,0.45),
+          0 0 32px 8px rgba(10,10,10,0.10);
+      }
+    }
+
+    /* ripple */
+    @keyframes liquidRipple {
+      0%   { transform: scale(1); opacity: .5; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+    .switcher-ripple {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      animation: liquidRipple .6s cubic-bezier(.16,1,.3,1) forwards;
+      pointer-events: none;
+    }
+    [data-theme="light"] .switcher-ripple { background: rgba(0,0,0,0.15); }
+
+    /* ============================================================
+       MEMBER CARD POPUP
+    ============================================================ */
+    /* cards */
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.18),
+        transparent
+      );
+      transition: left .45s cubic-bezier(.16,1,.3,1);
+      pointer-events: none;
+    }
+    .btn-primary:hover::after { left: 160%; }
+
+    /* glass sheen on event cards */
+    .event-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.04) 0%,
+        transparent 60%
+      );
+      pointer-events: none;
+    }
+
+    /* period tabs — glass active */
+    .ptab.active {
+      background: var(--white);
+      color: var(--black);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+    .ptab:not(.active) {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .ptab:not(.active):hover {
+      background: rgba(245,245,240,0.10);
+    }
+
+    /* social links glass hover */
+    .social-link:hover {
+      background: rgba(245,245,240,0.05);
+      backdrop-filter: blur(4px);
+      padding-left: 10px;
+    }
+
+    
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media(max-width:900px){
+      nav { padding:18px 24px; }
+      nav.scrolled { padding:12px 24px; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      #home { padding:0 24px 72px; }
+      .hero-stats { display:none; }
+      .scroll-ind { right:24px; }
+      section { padding:80px 24px; }
+      .divider { margin:0 24px; }
+      .about-wrap { grid-template-columns:1fr; gap:40px; }
+      .about-right { padding-top:0; }
+      #contact { grid-template-columns:1fr; gap:40px; }
+      .contact-right { padding-top:0; }
+      .gallery-grid { columns:2; }
+      .modal-photos { grid-template-columns:repeat(2,1fr); }
+      #event-modal { padding:60px 24px; }
+      footer { padding:28px 24px; }
+    }
+    @media(max-width:580px){
+      .gallery-grid { columns:1; }
+      .modal-photos { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- loader removed -->
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <img src="https://web-osis-ebenhaezer.vercel.app/css/logo-osis.png" alt="Logo OSIS"/>
+    <span>OSIS Ebenhaezer</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">Visi &amp; Misi</a></li>
+    <li><a href="#members">Pengurus</a></li>
+    <li><a href="#events">Proker</a></li>
+    <li><a href="#gallery">Galeri</a></li>
+    <li><a href="#contact">Kontak</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home"    onclick="closeMobile()">Home</a>
+  <a href="#about"   onclick="closeMobile()">Visi &amp; Misi</a>
+  <a href="#members" onclick="closeMobile()">Pengurus</a>
+  <a href="#events"  onclick="closeMobile()">Proker</a>
+  <a href="#gallery" onclick="closeMobile()">Galeri</a>
+  <a href="#contact" onclick="closeMobile()">Kontak</a>
+</div>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section id="home">
+  <!-- VIDEO INTRODUCTION OSIS -->
+  <div class="hero-video-wrap">
+    <!-- Video ID: FhP7lXjX8Z8 — ganti dengan video terbaru tiap periode -->
+    <iframe
+      src="https://www.youtube.com/embed/FhP7lXjX8Z8?autoplay=0&rel=0&modestbranding=1"
+      title="Video Perkenalan OSIS Ebenhaezer 2025-2026"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- TEKS HERO -->
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal">SMAK3 Bina Bakti Bandung — Organisasi Siswa Intra Sekolah</p>
+    <h1 class="hero-title reveal d1">OSIS<br/><em>Ebenhaezer</em></h1>
+    <p class="hero-sub reveal d2">Wadah siswa-siswi SMAK3 Bina Bakti untuk tumbuh aktif, kreatif, dan inovatif — selaras dengan nilai SMART.</p>
+    <div class="hero-cta reveal d3">
+      <a href="#members" class="btn-primary">Kenali Kami</a>
+      <a href="#about" class="btn-ghost">Visi &amp; Misi →</a>
+    </div>
+  </div>
+  <div class="scroll-ind"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ============================================================
+     VISI & MISI
+============================================================ -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-left">
+      <p class="section-tag reveal">Tentang Kami</p>
+      <h2 class="section-title reveal d1">Bukan Sekadar<br/><em>Organisasi.</em></h2>
+      <p class="lead reveal d2">OSIS Ebenhaezer adalah ruang bagi siswa untuk tumbuh — sebagai pemimpin, sebagai pelayan, dan sebagai pribadi yang berkarakter sesuai nilai SMART.</p>
+    </div>
+    <div class="about-right">
+      <div class="period-tabs reveal" style="margin-bottom:28px;">
+        <button class="ptab active" onclick="switchTab('about','2526',this)">2025–2026</button>
+        <button class="ptab"        onclick="switchTab('about','2425',this)">2024–2025</button>
+      </div>
+
+      <!-- 2025-2026 -->
+      <div class="period-panel active" id="about-2526">
+        <div class="vm-block reveal">
+          <p class="vm-label">Visi</p>
+          <p class="vm-text">"Mewujudkan OSIS sebagai organisasi yang aktif, kreatif, inovatif untuk menjadi wadah pengembangan potensi bagi siswa-siswi SMAK3 Bina Bakti dan menciptakan lingkungan yang selaras dengan nilai SMART bagi siswa-siswi SMAK3 Bina Bakti."</p>
+        </div>
+        <div class="vm-block reveal d2">
+          <p class="vm-label">Misi</p>
+          <ul class="mission-list">
+            <li><span class="num">01</span>Menjadikan OSIS sebagai teladan dalam sikap religius, kreatif, dan menghargai perbedaan</li>
+            <li><span class="num">02</span>Mendorong dan memfasilitasi siswa untuk mengembangkan bakat dan minat secara inovatif</li>
+            <li><span class="num">03</span>Menumbuhkan kesadaran siswa terhadap pentingnya menjaga lingkungan sekolah agar terciptanya lingkungan yang bersih dan asri</li>
+            <li><span class="num">04</span>Mengadakan kegiatan sosial untuk menumbuhkan kepedulian terhadap sesama</li>
+            <li><span class="num">05</span>Menumbuhkan sikap sopan santun antar siswa sebagai budaya sekolah</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2024-2025 -->
+      <div class="period-panel" id="about-2425">
+        <div class="vm-block reveal">
+          <p class="vm-label">Visi</p>
+          <p class="vm-text">"Mewujudkan OSIS sebagai wadah bagi siswa-siswi untuk mengembangkan potensi diri sebagai individu yang melayani, aktif, dan bertanggung jawab, serta menjadi teladan dalam bersikap dengan menginterpretasikan nilai SMART dalam menjalankan tugas."</p>
+        </div>
+        <div class="vm-block reveal d2">
+          <p class="vm-label">Misi — FUSION</p>
+          <ul class="mission-list">
+            <li><span class="num">F</span>Fellowship — Membangun solidaritas antar anggota</li>
+            <li><span class="num">U</span>Unity — Menjaga kesatuan dalam keberagaman</li>
+            <li><span class="num">S</span>Skills — Mengembangkan kompetensi dan keahlian</li>
+            <li><span class="num">I</span>Impact — Memberikan dampak nyata bagi sekolah</li>
+            <li><span class="num">O</span>Organization — Membangun kerja tim yang solid</li>
+            <li><span class="num">N</span>Nurturing — Membentuk karakter yang kuat</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ============================================================
+     MEMBERS — ORG CHART
+============================================================ -->
+<section id="members">
+  <div class="members-header">
+    <div>
+      <p class="section-tag reveal">Struktur Organisasi</p>
+      <h2 class="section-title reveal d1">Our<br/><em>Members.</em></h2>
+    </div>
+    <div class="period-tabs reveal">
+      <button class="ptab active" onclick="switchTab('members','2526',this)">2025–2026</button>
+      <button class="ptab"        onclick="switchTab('members','2425',this)">2024–2025</button>
+    </div>
+  </div>
+
+  <!-- ====== PERIODE 2025-2026 ====== -->
+  <div class="period-panel active" id="members-2526">
+
+    <!-- PEMBINA & PENGURUS INTI -->
+    <div class="dept-block-label reveal">Pembina &amp; Pengurus Inti</div>
+    <div class="members-grid">
+      <div class="member-card reveal">
+        <!-- ── GANTI src foto Pembina ── -->
+        <img class="member-photo" src="MEMBERS/2526/irw.png" alt="Pembina"/>
+        </div>
+        <div class="member-info"><div class="member-name">Irwan Haryadi S.,S.Pd</div><div class="member-role">Pembina OSIS</div></div>
+      </div>
+      <div class="member-card reveal d1">
+        <!-- ── GANTI src foto Greace ── -->
+        <img class="member-photo" src="MEMBERS/2526/agus.png" alt="Ketua OSIS"/>
+        </div>
+        <div class="member-info"><div class="member-name">Greace Amelia Agustine</div><div class="member-role">Ketua OSIS</div></div>
+      </div>
+      <div class="member-card reveal d2">
+        <!-- ── GANTI src foto Michaela ── -->
+        <img class="member-photo" src="MEMBERS/2526/myc.png" alt="Wakil Ketua"/>
+        </div>
+        <div class="member-info"><div class="member-name">Michaela Kathryn C.</div><div class="member-role">Wakil Ketua OSIS</div></div>
+      </div>
+      <div class="member-card reveal d3">
+        <!-- ── GANTI src foto Vanessa ── -->
+        <img class="member-photo" src="MEMBERS/2526/van.png" alt="Sekretaris"/>
+        </div>
+        <div class="member-info"><div class="member-name">Vanessa Chrisandra</div><div class="member-role">Sekretaris</div></div>
+      </div>
+      <div class="member-card reveal d4">
+        <!-- ── GANTI src foto Felicia ── -->
+        <img class="member-photo" src="MEMBERS/2526/fel.png" alt="Bendahara"/>
+        </div>
+        <div class="member-info"><div class="member-name">Felicia Levnina</div><div class="member-role">Bendahara</div></div>
+      </div>
+    </div>
+
+    <!-- DEPT DPD -->
+    <div class="dept-block">
+      <div class="dept-block-label reveal">Departemen Pengembangan Diri (DPD)</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <!-- ── GANTI src foto Renaldy ── -->
+          <img class="member-photo" src="MEMBERS/2526/ren.png" alt="Ketua DPD"/>
+        </div>
+        <div class="member-info"><div class="member-name">Renaldy Irlen</div><div class="member-role">Ketua Departemen DPD</div></div>
+        </div>
+      </div>
+
+      <div class="divisi-label reveal">Divisi Spirituality</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="MEMBERS/2526/gis.png" alt="Ketua Spirituality"/>
+        </div>
+        <div class="member-info"><div class="member-name">Giselle Angelica</div><div class="member-role">Ketua Divisi Spirituality</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="MEMBERS/2526/mar.png" alt="Anggota Spirituality"/>
+        </div>
+        <div class="member-info"><div class="member-name">Marvello Reynard</div><div class="member-role">Anggota — Spirituality</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="MEMBERS/2526/nic.png" alt="Anggota Spirituality"/>
+        </div>
+        <div class="member-info"><div class="member-name">Nicholas Peter</div><div class="member-role">Anggota — Spirituality</div></div>
+        </div>
+      </div>
+
+      <div class="divisi-label reveal">Divisi Art &amp; Sport</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="MEMBERS/2526/gib.png" alt="Ketua Art & Sport"/>
+        </div>
+        <div class="member-info"><div class="member-name">Gibson Trevorus</div><div class="member-role">Ketua Divisi Art &amp; Sport</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="MEMBERS/2526/mal.png" alt="Anggota Art & Sport"/>
+        </div>
+        <div class="member-info"><div class="member-name">Malvin Herawan</div><div class="member-role">Anggota — Art &amp; Sport</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="MEMBERS/2526/ser.png" alt="Anggota Art & Sport"/>
+        </div>
+        <div class="member-info"><div class="member-name">Sergio Reysevo</div><div class="member-role">Anggota — Art &amp; Sport</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPT KOMINFO -->
+    <div class="dept-block">
+      <div class="dept-block-label reveal">Departemen Komunikasi &amp; Informasi (Kominfo)</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="MEMBERS/2526/dav.png" alt="Ketua Kominfo"/>
+        </div>
+        <div class="member-info"><div class="member-name">Dave Reynaldi</div><div class="member-role">Ketua Departemen Kominfo</div></div>
+        </div>
+      </div>
+
+      <div class="divisi-label reveal">Divisi Blitz</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="MEMBERS/2526/jon.png" alt="Ketua Blitz"/>
+        </div>
+        <div class="member-info"><div class="member-name">Jonathan Aninditho</div><div class="member-role">Ketua Divisi Blitz</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="MEMBERS/2526/gra.png" alt="Anggota Blitz"/>
+        </div>
+        <div class="member-info"><div class="member-name">Graciella Tiffany</div><div class="member-role">Anggota — Blitz</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="MEMBERS/2526/wyl.png" alt="Anggota Blitz"/>
+        </div>
+        <div class="member-info"><div class="member-name">Wylvin Herliana</div><div class="member-role">Anggota — Blitz</div></div>
+        </div>
+      </div>
+
+      <div class="divisi-label reveal">Divisi Humas</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="MEMBERS/2526/gab.png" alt="Ketua Humas"/>
+        </div>
+        <div class="member-info"><div class="member-name">Gabriella Jesslyn</div><div class="member-role">Ketua Divisi Humas</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="MEMBERS/2526/xin.png" alt="Anggota Humas"/>
+        </div>
+        <div class="member-info"><div class="member-name">Cynthiara Josephina</div><div class="member-role">Anggota — Humas</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="MEMBERS/2526/san.png" alt="Anggota Humas"/>
+        </div>
+        <div class="member-info"><div class="member-name">Cassandra Yulita</div><div class="member-role">Anggota — Humas</div></div>
+        </div>
+      </div>
+
+      <div class="divisi-label reveal">Divisi Creativity</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="MEMBERS/2526/ave.png" alt="Ketua Creativity"/>
+        </div>
+        <div class="member-info"><div class="member-name">Avelyn Anjelita</div><div class="member-role">Ketua Divisi Creativity</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="MEMBERS/2526/fai.png" alt="Anggota Creativity"/>
+        </div>
+        <div class="member-info"><div class="member-name">Faithlyne Zevischa</div><div class="member-role">Anggota — Creativity</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="MEMBERS/2526/vel.png" alt="Anggota Creativity"/>
+        </div>
+        <div class="member-info"><div class="member-name">Vellycia Sandiorisa</div><div class="member-role">Anggota — Creativity</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel 2526 -->
+
+  <!-- ====== PERIODE 2024-2025 ====== -->
+  <div class="period-panel" id="members-2425">
+
+    <div class="dept-block-label reveal">Pembina &amp; Pengurus Inti</div>
+    <div class="members-grid">
+      <div class="member-card reveal">
+        <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/css/pembina.jpeg" alt="Pembina"/>
+        <div class="member-info"><div class="member-name">Irwan Haryadi S., S.Pd</div><div class="member-role">Pembina OSIS</div></div>
+      </div>
+      <div class="member-card reveal d1">
+        <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/1732109645027.png" alt="Ketua"/>
+        <div class="member-info"><div class="member-name">Kayleen Ashleigh</div><div class="member-role">Ketua OSIS</div></div>
+      </div>
+      <div class="member-card reveal d2">
+        <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/1732108152513.png" alt="Wakil Ketua"/>
+        <div class="member-info"><div class="member-name">Kireina Hana</div><div class="member-role">Wakil Ketua OSIS</div></div>
+      </div>
+      <div class="member-card reveal d3">
+        <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Sekretaris.png" alt="Sekretaris"/>
+        <div class="member-info"><div class="member-name">Jorianne Abigail</div><div class="member-role">Sekretaris</div></div>
+      </div>
+      <div class="member-card reveal d4">
+        <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Bendahara.png" alt="Bendahara"/>
+        <div class="member-info"><div class="member-name">Agnes Natali</div><div class="member-role">Bendahara</div></div>
+      </div>
+    </div>
+
+    <div class="dept-block">
+      <div class="dept-block-label reveal">Departemen Pengembangan Diri (DPD)</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Ketua-DPD.png" alt="Ketua DPD"/>
+          <div class="member-info"><div class="member-name">Loula Stefanny</div><div class="member-role">Ketua Departemen DPD</div></div>
+        </div>
+      </div>
+      <div class="divisi-label reveal">Divisi Spiritual</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Ketua-spiritual.png" alt="Ketua Spiritual"/>
+          <div class="member-info"><div class="member-name">Cecilya Paramita</div><div class="member-role">Ketua Divisi Spiritual</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-spiritual-1.png" alt="Anggota Spiritual"/>
+          <div class="member-info"><div class="member-name">Christopher Alexander</div><div class="member-role">Anggota — Spiritual</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-Spiritual-2.png" alt="Anggota Spiritual"/>
+          <div class="member-info"><div class="member-name">Giselle Angelica</div><div class="member-role">Anggota — Spiritual</div></div>
+        </div>
+      </div>
+      <div class="divisi-label reveal">Divisi Sport</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Ketua-sport.png" alt="Ketua Sport"/>
+          <div class="member-info"><div class="member-name">Steven Gerrard</div><div class="member-role">Ketua Divisi Sport</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-sport-1.png" alt="Anggota Sport"/>
+          <div class="member-info"><div class="member-name">Gibson Trevorus</div><div class="member-role">Anggota — Sport</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-sport-2.png" alt="Anggota Sport"/>
+          <div class="member-info"><div class="member-name">Renaldy Irlen</div><div class="member-role">Anggota — Sport</div></div>
+        </div>
+      </div>
+      <div class="divisi-label reveal">Divisi Creativity</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Ketua-creativity.png" alt="Ketua Creativity"/>
+          <div class="member-info"><div class="member-name">Michelle Janett</div><div class="member-role">Ketua Divisi Creativity</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-kreatif-1.png" alt="Anggota Creativity"/>
+          <div class="member-info"><div class="member-name">Gabriella Jesslyn</div><div class="member-role">Anggota — Creativity</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-kreatif-2.png" alt="Anggota Creativity"/>
+          <div class="member-info"><div class="member-name">Aveline Anielita</div><div class="member-role">Anggota — Creativity</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dept-block">
+      <div class="dept-block-label reveal">Departemen Komunikasi &amp; Informasi (Kominfo)</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Departemen Kominfo.png" alt="Ketua Kominfo"/>
+          <div class="member-info"><div class="member-name">Jeyssen Nathanie</div><div class="member-role">Ketua Departemen Kominfo</div></div>
+        </div>
+      </div>
+      <div class="divisi-label reveal">Divisi Blitz</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Ketua-blitz.png" alt="Ketua Blitz"/>
+          <div class="member-info"><div class="member-name">Michael Christian</div><div class="member-role">Ketua Divisi Blitz</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-blitz-1.png" alt="Anggota Blitz"/>
+          <div class="member-info"><div class="member-name">Alexa Leona</div><div class="member-role">Anggota — Blitz</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-blitz-2.png" alt="Anggota Blitz"/>
+          <div class="member-info"><div class="member-name">Malvin Herawan</div><div class="member-role">Anggota — Blitz</div></div>
+        </div>
+      </div>
+      <div class="divisi-label reveal">Divisi Humas</div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Ketua-Humas.png" alt="Ketua Humas"/>
+          <div class="member-info"><div class="member-name">Chealsy Caroline</div><div class="member-role">Ketua Divisi Humas</div></div>
+        </div>
+        <div class="member-card reveal d1">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-humas-1.png" alt="Anggota Humas"/>
+          <div class="member-info"><div class="member-name">Dave Renaldy</div><div class="member-role">Anggota — Humas</div></div>
+        </div>
+        <div class="member-card reveal d2">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-humas-2.png" alt="Anggota Humas"/>
+          <div class="member-info"><div class="member-name">Mychaela Kathryn</div><div class="member-role">Anggota — Humas</div></div>
+        </div>
+        <div class="member-card reveal d3">
+          <img class="member-photo" src="https://web-osis-ebenhaezer.vercel.app/image/Anggota-humas-3.png" alt="Anggota Humas"/>
+          <div class="member-info"><div class="member-name">Greace Amelia</div><div class="member-role">Anggota — Humas</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panel 2425 -->
+
+</section>
+
+<hr class="divider"/>
+
+<!-- ============================================================
+     PROKER / EVENTS
+============================================================ -->
+<section id="events">
+  <div class="events-header">
+    <div>
+      <p class="section-tag reveal">Program Kerja</p>
+      <h2 class="section-title reveal d1">Proker &<br/><em>Event.</em></h2>
+    </div>
+    <div class="period-tabs reveal">
+      <button class="ptab active" onclick="switchTab('events','2526',this)">2025–2026</button>
+      <button class="ptab"        onclick="switchTab('events','2425',this)">2024–2025</button>
+    </div>
+  </div>
+
+  <!-- 2025-2026 -->
+  <div class="period-panel active" id="events-2526">
+    <div class="events-grid">
+      <!--
+        Cara tambah foto per event:
+        1. Upload foto ke repo di folder: images/events/2526/pensi/foto1.jpg dst
+        2. Di data-photos di bawah, isi URL foto dipisah koma
+        3. Kalau belum ada foto, biarkan data-photos="" — otomatis tampil placeholder
+      -->
+
+      <div class="event-card reveal" onclick="openEventModal(this)"
+        data-title="Pensi — Pentas Seni"
+        data-dept="DPD — Creativity"
+        data-desc="Panggung ekspresi seni dan bakat siswa-siswi SMAK3 Bina Bakti dalam satu malam yang spektakuler."
+        data-photos="">
+        <!-- ── GANTI background-image saat foto event tersedia ── -->
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">01</div>
+          <div class="event-title">Pensi — Pentas Seni</div>
+          <p class="event-desc">Panggung ekspresi seni dan bakat siswa-siswi SMAK3 Bina Bakti dalam satu malam yang spektakuler.</p>
+          <span class="event-badge">DPD — Creativity</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal d1" onclick="openEventModal(this)"
+  data-title="Paskah"
+  data-dept="DPD — Spirituality"
+  data-desc="Peringatan Paskah bersama seluruh warga sekolah sebagai wujud iman dan kebersamaan."
+  data-photos="events/2526/Kebaktian.jpg, events/2526/Parcel.jpg, events/2526/Drum.jpg">
+  <div class="event-bg" style="background-image:url('events/2526/Paskah.jpg')"></div>
+        <div class="event-body">
+          <div class="event-num">02</div>
+          <div class="event-title">Paskah</div>
+          <p class="event-desc">Peringatan Paskah bersama seluruh warga sekolah sebagai wujud iman dan kebersamaan.</p>
+          <span class="event-badge">DPD — Spirituality</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal d2" onclick="openEventModal(this)"
+        data-title="OSIS Majas"
+        data-dept="Kominfo — Humas"
+        data-desc="Kisi-kisi PTS/PAS dari OSIS untuk membantu persiapan ujian seluruh siswa."
+        data-photos="">
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">03</div>
+          <div class="event-title">OSIS Majas</div>
+          <p class="event-desc">Kisi-kisi PTS/PAS dari OSIS untuk membantu persiapan ujian seluruh siswa.</p>
+          <span class="event-badge">Kominfo — Humas</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal d3" onclick="openEventModal(this)"
+        data-title="Go Green"
+        data-dept="DPD — Art & Sport"
+        data-desc="Menanam pohon dan tanaman di lingkungan sekolah demi menciptakan sekolah yang hijau dan asri."
+        data-photos="">
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">04</div>
+          <div class="event-title">Go Green</div>
+          <p class="event-desc">Menanam pohon dan tanaman di lingkungan sekolah demi menciptakan sekolah yang hijau dan asri.</p>
+          <span class="event-badge">DPD — Art &amp; Sport</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal" onclick="openEventModal(this)"
+        data-title="Charity"
+        data-dept="DPD — Spirituality"
+        data-desc="Kegiatan donasi dan kepedulian sosial untuk membantu masyarakat yang membutuhkan."
+        data-photos="">
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">05</div>
+          <div class="event-title">Charity</div>
+          <p class="event-desc">Kegiatan donasi dan kepedulian sosial untuk membantu masyarakat yang membutuhkan.</p>
+          <span class="event-badge">DPD — Spirituality</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal d1" onclick="openEventModal(this)"
+        data-title="Chinese New Year"
+        data-dept="DPD — Creativity"
+        data-desc="Perayaan Tahun Baru Imlek bersama yang mencerminkan keberagaman budaya di sekolah."
+        data-photos="">
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">06</div>
+          <div class="event-title">Chinese New Year</div>
+          <p class="event-desc">Perayaan Tahun Baru Imlek bersama yang mencerminkan keberagaman budaya di sekolah.</p>
+          <span class="event-badge">DPD — Creativity</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal d2" onclick="openEventModal(this)"
+        data-title="Binbak Radio"
+        data-dept="Kominfo — Blitz"
+        data-desc="Radio sekolah yang mengudara saat jam istirahat dengan hiburan, informasi, dan musik."
+        data-photos=""
+        data-form="https://docs.google.com/forms/d/e/1FAIpQLSd_fElh1cL-Tjp-EuZUq7X1MOun3YGEYdHBpn3t5ilpDIKVpw/viewform">
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">07</div>
+          <div class="event-title">Binbak Radio</div>
+          <p class="event-desc">Radio sekolah yang mengudara saat jam istirahat dengan hiburan, informasi, dan musik.</p>
+          <span class="event-badge">Kominfo — Blitz</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal d3" onclick="openEventModal(this)"
+        data-title="Talent Day"
+        data-dept="DPD — Creativity"
+        data-desc="Ajang kompetisi bakat layaknya got talent — satu panggung untuk semua siswa SMAK3 Bina Bakti."
+        data-photos="">
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">08</div>
+          <div class="event-title">Talent Day</div>
+          <p class="event-desc">Ajang kompetisi bakat layaknya got talent — satu panggung untuk semua siswa SMAK3 Bina Bakti.</p>
+          <span class="event-badge">DPD — Creativity</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal" onclick="openEventModal(this)"
+        data-title="Natal"
+        data-dept="DPD — Spirituality"
+        data-desc="Perayaan Natal sekolah yang meriah sebagai penutup tahun ajaran yang penuh makna."
+        data-photos="">
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">09</div>
+          <div class="event-title">Natal</div>
+          <p class="event-desc">Perayaan Natal sekolah yang meriah sebagai penutup tahun ajaran yang penuh makna.</p>
+          <span class="event-badge">DPD — Spirituality</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+      <div class="event-card reveal d1" onclick="openEventModal(this)"
+        data-title="Porak / Perak"
+        data-dept="DPD — Art & Sport"
+        data-desc="Pekan Olahraga Antar Kelas dan Pesta Rakyat — kompetisi seru yang ditunggu-tunggu usai ujian."
+        data-photos="">
+        <div class="event-bg"></div>
+        <div class="event-body">
+          <div class="event-num">10</div>
+          <div class="event-title">Porak / Perak</div>
+          <p class="event-desc">Pekan Olahraga Antar Kelas dan Pesta Rakyat — kompetisi seru yang ditunggu-tunggu usai ujian.</p>
+          <span class="event-badge">DPD — Art &amp; Sport</span>
+          <div class="event-cta">Lihat Dokumentasi</div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /events 2526 -->
+
+  <!-- 2024-2025 -->
+  <div class="period-panel" id="events-2425">
+    <div class="events-grid">
+      <div class="event-card reveal" style="pointer-events:none;">
+        <div class="event-bg"></div>
+        <div class="event-body" style="text-align:center;padding:60px 20px;">
+          <div style="color:var(--gray);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;">
+            Data proker 2024–2025<br/>akan ditambahkan di sini
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- EVENT MODAL -->
+<div id="event-modal">
+  <button class="modal-close" onclick="closeEventModal()">✕</button>
+  <div class="modal-inner">
+    <p class="modal-tag" id="modal-dept"></p>
+    <h2 class="modal-title" id="modal-title"></h2>
+    <p class="modal-desc" id="modal-desc"></p>
+    <div class="modal-photos" id="modal-photos"></div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- ============================================================
+     GALLERY
+============================================================ -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div>
+      <p class="section-tag reveal">Dokumentasi</p>
+      <h2 class="section-title reveal d1">Galeri<br/><em>Karya.</em></h2>
+    </div>
+    <div class="period-tabs reveal">
+      <button class="ptab active" onclick="switchTab('gallery','2526',this)">2025–2026</button>
+      <button class="ptab"        onclick="switchTab('gallery','2425',this)">2024–2025</button>
+    </div>
+  </div>
+
+  <div class="period-panel active" id="gallery-2526">
+    <div class="gallery-grid">
+      <!--
+        ── TAMBAH foto 2025-2026 di sini ──
+        <div class="gallery-item reveal" onclick="openLightbox(this)">
+          <img class="gallery-img" src="images/gallery/2526/foto1.jpg" alt="Deskripsi"/>
+          <div class="gallery-overlay"><span class="gallery-icon">⊕</span></div>
+        </div>
+      -->
+      <div class="gallery-placeholder reveal">Foto 2025–2026 belum tersedia</div>
+      <div class="gallery-placeholder reveal d1">Upload ke repo → images/gallery/2526/</div>
+      <div class="gallery-placeholder reveal d2">Lalu ganti src di sini</div>
+    </div>
+  </div>
+
+  <div class="period-panel" id="gallery-2425">
+    <div class="gallery-grid">
+      <div class="gallery-item reveal" onclick="openLightbox(this)">
+        <img class="gallery-img" src="https://web-osis-ebenhaezer.vercel.app/css/logo-osis-hero.png" alt="2024-2025"/>
+        <div class="gallery-overlay"><span class="gallery-icon">⊕</span></div>
+      </div>
+      <div class="gallery-item reveal d1" onclick="openLightbox(this)">
+        <img class="gallery-img" src="https://web-osis-ebenhaezer.vercel.app/css/pembina.jpeg" alt="Pembina"/>
+        <div class="gallery-overlay"><span class="gallery-icon">⊕</span></div>
+      </div>
+      <div class="gallery-item reveal d2" onclick="openLightbox(this)">
+        <img class="gallery-img" src="https://web-osis-ebenhaezer.vercel.app/image/1732109645027.png" alt="Ketua 2024-2025"/>
+        <div class="gallery-overlay"><span class="gallery-icon">⊕</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<hr class="divider"/>
+
+<!-- ============================================================
+     CONTACT
+============================================================ -->
+<section id="contact">
+  <div class="contact-left">
+    <p class="section-tag reveal">Hubungi Kami</p>
+    <div class="contact-big reveal d1">Get<br/>in<br/><em>Touch.</em></div>
+  </div>
+  <div class="contact-right">
+    <p class="contact-address reveal">
+      Komplek Industri, Jl. Taman Kopo Indah 1 No.5,<br/>
+      Sayati, Kec. Margahayu,<br/>
+      Kabupaten Bandung, Jawa Barat 40226
+    </p>
+    <div class="social-links">
+      <a class="social-link reveal" href="https://www.instagram.com/osisebenhaezer_" target="_blank">
+        <span class="social-platform">Instagram</span>
+        <span class="social-handle">@osisebenhaezer_</span>
+        <span class="social-arrow">↗</span>
+      </a>
+      <a class="social-link reveal d1" href="https://www.tiktok.com/@osisebenhaezer_" target="_blank">
+        <span class="social-platform">TikTok</span>
+        <span class="social-handle">@osisebenhaezer_</span>
+        <span class="social-arrow">↗</span>
+      </a>
+      <a class="social-link reveal d2" href="mailto:staff.ebenhaezer@gmail.com">
+        <span class="social-platform">Email</span>
+        <span class="social-handle">staff.ebenhaezer@gmail.com</span>
+        <span class="social-arrow">↗</span>
+      </a>
+      <a class="social-link reveal d3" href="https://www.youtube.com/@osisebenhaezer3178" target="_blank">
+        <span class="social-platform">YouTube</span>
+        <span class="social-handle">OSIS Ebenhaezer</span>
+        <span class="social-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">OSIS Ebenhaezer — SMAK3 Bina Bakti</div>
+  <!-- ── UPDATE tahun tiap ganti periode ── -->
+  <div class="footer-copy">© 2026 OSIS Ebenhaezer. Semua hak dilindungi.</div>
+</footer>
+
+<!-- theme-switcher moved to dock -->
+
+<!-- music-player moved to dock -->
+
+<!-- ============================================================
+     LIQUID GLASS DOCK — always visible, items expand on tap
+============================================================ -->
+<div id="dock-tray" role="toolbar" aria-label="Dock OSIS Ebenhaezer">
+
+  <!-- 1. MUSIK -->
+  <div class="dock-item">
+    <button class="dock-icon-btn" id="dock-music-btn" title="Musik">
+      <span id="dock-music-icon">▶</span>
+    </button>
+    <div class="dock-panel" id="dock-music-panel">
+      <div class="dock-panel-inner">
+        <span id="dock-music-label">Ebn Music</span>
+        <div id="dock-progress" title="Klik untuk skip">
+          <div id="dock-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dock-divider"></div>
+
+  <!-- 2. TEMA -->
+  <div class="dock-item">
+    <button class="dock-icon-btn" id="dock-theme-btn" title="Tema">
+      <span id="dock-theme-icon">🌙</span>
+    </button>
+    <div class="dock-panel" id="dock-theme-panel">
+      <div class="dock-panel-inner">
+        <span id="dock-theme-label">Gelap</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dock-divider"></div>
+
+  <!-- 3. BINBAK RADIO -->
+  <div class="dock-item">
+    <button class="dock-icon-btn" id="dock-radio-btn" title="Binbak Radio">
+      <span>📻</span>
+    </button>
+    <div class="dock-panel" id="dock-radio-panel">
+      <div class="dock-panel-inner">
+        <span>Binbak Radio</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Audio element — src mengarah ke file musik di repo -->
+<!-- ── GANTI src jika nama file berubah ── -->
+<audio id="bg-music" loop>
+  <source src="Ebnsite_music.mp3" type="audio/mpeg"/>
+</audio>
+
+
+<script>
+  /* ============================================================
+     NAVBAR
+  ============================================================ */
+  const navbar = document.getElementById('navbar');
+  let lastScrollY = 0;
+
+  /* ============================================================
+     LIQUID GLASS DOCK
+     - Tray always visible
+     - Each icon-btn toggles its own .dock-panel
+     - Only one panel open at a time
+     - Scroll down → tray hides, scroll up → tray shows
+  ============================================================ */
+  const dockTray = document.getElementById('dock-tray');
+
+  // panel toggle helper
+  function toggleDockPanel(panelId, btnEl) {
+    const panel = document.getElementById(panelId);
+    const isOpen = panel.classList.contains('open');
+
+    // close all panels first
+    document.querySelectorAll('.dock-panel.open').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.dock-icon-btn.active').forEach(b => b.classList.remove('active'));
+
+    // open this one if it was closed
+    if (!isOpen) {
+      panel.classList.add('open');
+      btnEl.classList.add('active');
+    }
+  }
+
+  // scroll hide/show
+  window.addEventListener('scroll', () => {
+    const cy = window.scrollY;
+
+    // navbar
+    navbar.classList.toggle('scrolled', cy > 60);
+    navbar.classList.toggle('nav-hidden', cy > lastScrollY && cy > 80);
+
+    // dock
+    if (cy > lastScrollY && cy > 80) {
+      dockTray.classList.add('dock-hidden');
+      // close all panels when hidden
+      document.querySelectorAll('.dock-panel.open').forEach(p => p.classList.remove('open'));
+      document.querySelectorAll('.dock-icon-btn.active').forEach(b => b.classList.remove('active'));
+    } else {
+      dockTray.classList.remove('dock-hidden');
+    }
+
+    lastScrollY = cy;
+  });
+
+  // close panels when clicking outside dock
+  document.addEventListener('click', e => {
+    if (!dockTray.contains(e.target)) {
+      document.querySelectorAll('.dock-panel.open').forEach(p => p.classList.remove('open'));
+      document.querySelectorAll('.dock-icon-btn.active').forEach(b => b.classList.remove('active'));
+    }
+  });
+
+  /* ============================================================
+     HAMBURGER
+  ============================================================ */
+  const ham   = document.getElementById('hamburger');
+  const mMenu = document.getElementById('mobileMenu');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mMenu.classList.toggle('open');
+  });
+  function closeMobile() {
+    ham.classList.remove('open');
+    mMenu.classList.remove('open');
+  }
+
+  /* ============================================================
+     SCROLL REVEAL
+  ============================================================ */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: .07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ============================================================
+     PERIOD TAB SWITCHER
+  ============================================================ */
+  function switchTab(prefix, panelId, btn) {
+    document.querySelectorAll('[id^="' + prefix + '-"]').forEach(p => p.classList.remove('active'));
+    btn.closest('.period-tabs').querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
+    const target = document.getElementById(prefix + '-' + panelId);
+    target.classList.add('active');
+    btn.classList.add('active');
+    target.querySelectorAll('.reveal').forEach(el => {
+      el.classList.remove('visible');
+      setTimeout(() => el.classList.add('visible'), 60);
+    });
+  }
+
+  /* ============================================================
+     EVENT MODAL
+  ============================================================ */
+  const eventModal = document.getElementById('event-modal');
+
+  function openEventModal(card) {
+    const title  = card.dataset.title;
+    const dept   = card.dataset.dept;
+    const desc   = card.dataset.desc;
+    const photos = card.dataset.photos ? card.dataset.photos.split(',').map(s => s.trim()).filter(Boolean) : [];
+    const form   = card.dataset.form || '';
+
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-dept').textContent  = dept;
+    document.getElementById('modal-desc').textContent  = desc;
+
+    const existingBtn = document.getElementById('modal-form-btn');
+    if (existingBtn) existingBtn.remove();
+    if (form) {
+      const btn = document.createElement('a');
+      btn.id = 'modal-form-btn'; btn.className = 'modal-form-btn';
+      btn.href = form; btn.target = '_blank';
+      btn.innerHTML = '<span class="form-icon">📝</span> Kirim Dudu Sekarang';
+      document.getElementById('modal-desc').after(btn);
+    }
+
+    const grid = document.getElementById('modal-photos');
+    grid.innerHTML = '';
+    if (photos.length === 0) {
+      for (let i = 0; i < 3; i++) {
+        const ph = document.createElement('div');
+        ph.className = 'modal-photo-placeholder';
+        ph.innerHTML = '<div class="ph-icon">📷</div><span>Foto akan ditambahkan<br/>upload ke repo lalu isi data-photos</span>';
+        grid.appendChild(ph);
+      }
+    } else {
+      photos.forEach(src => {
+        const wrap = document.createElement('div');
+        wrap.className = 'modal-photo';
+        wrap.onclick = () => openLightboxSrc(src);
+        const img = document.createElement('img');
+        img.src = src; img.alt = title;
+        wrap.appendChild(img); grid.appendChild(wrap);
+      });
+    }
+    eventModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEventModal() {
+    eventModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  eventModal.addEventListener('click', e => { if (e.target === eventModal) closeEventModal(); });
+
+  /* ============================================================
+     LIGHTBOX
+  ============================================================ */
+  const lightbox    = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  function openLightbox(item)   { openLightboxSrc(item.querySelector('img').src); }
+  function openLightboxSrc(src) {
+    lightboxImg.src = src;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeLightbox(); closeEventModal(); }
+  });
+
+  /* ============================================================
+     MUSIC (dock icon btn)
+  ============================================================ */
+  const audio          = document.getElementById('bg-music');
+  const dockMusicBtn   = document.getElementById('dock-music-btn');
+  const dockMusicIcon  = document.getElementById('dock-music-icon');
+  const dockProgFill   = document.getElementById('dock-progress-fill');
+  const dockProg       = document.getElementById('dock-progress');
+
+  dockMusicBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    // toggle panel
+    toggleDockPanel('dock-music-panel', dockMusicBtn);
+    // toggle play/pause
+    if (audio.paused) {
+      audio.play();
+      dockMusicIcon.textContent = '⏸';
+    } else {
+      audio.pause();
+      dockMusicIcon.textContent = '▶';
+    }
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    if (audio.duration)
+      dockProgFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+  });
+  dockProg.addEventListener('click', e => {
+    e.stopPropagation();
+    if (audio.duration) audio.currentTime = (e.offsetX / dockProg.offsetWidth) * audio.duration;
+  });
+
+  /* ============================================================
+     THEME (dock icon btn)
+  ============================================================ */
+  const dockThemeBtn   = document.getElementById('dock-theme-btn');
+  const dockThemeIcon  = document.getElementById('dock-theme-icon');
+  const dockThemeLabel = document.getElementById('dock-theme-label');
+  let isLight = false;
+
+  dockThemeBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    toggleDockPanel('dock-theme-panel', dockThemeBtn);
+    isLight = !isLight;
+    document.documentElement.setAttribute('data-theme', isLight ? 'light' : 'dark');
+    dockThemeIcon.textContent  = isLight ? '☀️' : '🌙';
+    dockThemeLabel.textContent = isLight ? 'Terang' : 'Gelap';
+    // ripple
+    const ripple = document.createElement('div');
+    ripple.className = 'switcher-ripple';
+    dockThemeBtn.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
+  });
+
+  /* ============================================================
+     BINBAK RADIO (dock icon btn)
+  ============================================================ */
+  document.getElementById('dock-radio-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    toggleDockPanel('dock-radio-panel', document.getElementById('dock-radio-btn'));
+
+    // ensure 2526 events tab is active
+    const eventsPanel = document.getElementById('events-2526');
+    if (!eventsPanel.classList.contains('active')) {
+      const tabBtn = document.querySelector('[onclick*="events"][onclick*="2526"]');
+      if (tabBtn) switchTab('events', '2526', tabBtn);
+    }
+
+    // find Binbak Radio card
+    let radioCard = null;
+    document.querySelectorAll('.event-card').forEach(c => {
+      if (c.dataset.title && c.dataset.title.toLowerCase().includes('binbak')) radioCard = c;
+    });
+
+    if (radioCard) {
+      radioCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        radioCard.classList.add('binbak-glow');
+        radioCard.addEventListener('animationend', () => radioCard.classList.remove('binbak-glow'), { once: true });
+      }, 600);
+    }
+  });
+
+  
+
+  document.addEventListener('click', () => {
+    if (isTouchDevice())
+  });
+</script>
+</body>
+</html>
